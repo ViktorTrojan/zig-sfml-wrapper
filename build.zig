@@ -8,7 +8,7 @@ fn addLibraryPathEnvVar(exe: *std.Build.Step.Compile, alloc: std.mem.Allocator) 
     const env_name = try std.unicode.utf8ToUtf16LeAllocZ(alloc, "LIBRARY_PATH");
     defer alloc.free(env_name);
     if (std.process.getenvW(env_name)) |env| {
-        var it = std.mem.tokenize(u16, env, &[_]u16{';'});
+        var it = std.mem.tokenizeAny(u16, env, &[_]u16{';'});
         while (it.next()) |path| {
             const path_u8 = try std.unicode.utf16LeToUtf8Alloc(alloc, path);
             defer alloc.free(path_u8);
